@@ -30,7 +30,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: 22.12.0
+          node-version: 22.23.3
       - name: Check for a new private source version
         id: release
         env:
@@ -50,7 +50,7 @@ jobs:
           ref: ${{ needs.prepare.outputs.commit }}
       - uses: actions/setup-node@v4
         with:
-          node-version: 22.12.0
+          node-version: 22.23.3
           cache: npm
       - name: Install Linux native build headers
         run: |
@@ -58,7 +58,7 @@ jobs:
           sudo apt-get install -y --no-install-recommends libx11-dev libxtst-dev libxrandr-dev libxt-dev
       - run: npm ci
       - run: npm run build:renderer
-      - run: npm test
+      - run: npm run check
 
   build:
     needs: [prepare, validate]
@@ -74,10 +74,10 @@ jobs:
           ref: ${{ needs.prepare.outputs.commit }}
       - uses: actions/setup-node@v4
         with:
-          node-version: 22.12.0
+          node-version: 22.23.3
           cache: npm
       - name: Prepare macOS notarization key
-        if: matrix.platform == 'mac' && matrix.unsigned != true
+        if: matrix.platform == 'mac'
         shell: bash
         env:
           APPLE_API_KEY_BASE64: ${{ secrets.APPLE_API_KEY_BASE64 }}
@@ -90,7 +90,6 @@ jobs:
       - run: npm ci
       - run: npm run build:renderer
       - name: Build platform artifacts
-        if: matrix.unsigned != true
         run: npx electron-builder --${{ matrix.platform }} --${{ matrix.arch }} --publish never ${{ matrix.platform == 'mac' && '-c.forceCodeSigning=true -c.extraMetadata.macAutoUpdates=true' || '' }}
         env:
           CSC_LINK: ${{ matrix.platform == 'mac' && secrets.MAC_CSC_LINK || secrets.WIN_CSC_LINK }}
@@ -98,14 +97,9 @@ jobs:
           APPLE_API_KEY: ${{ runner.temp }}/AuthKey.p8
           APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
           APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
-      - name: Build ad-hoc signed macOS manual installer
-        if: matrix.unsigned == true
-        run: npx electron-builder --mac dmg --${{ matrix.arch }} --publish never -c.mac.identity=- -c.mac.notarize=false -c.extraMetadata.macAutoUpdates=false
-        env:
-          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
       - name: Verify Mac app signature before upload
         if: matrix.platform == 'mac'
-        run: node scripts/verify-mac-signature.cjs "${{ matrix.arch }}" ${{ matrix.unsigned != true && '--trusted' || '' }}
+        run: node scripts/verify-mac-signature.cjs "${{ matrix.arch }}" --trusted
       - uses: actions/upload-artifact@v4
         with:
           name: release-${{ matrix.name }}
@@ -133,7 +127,7 @@ jobs:
           ref: ${{ needs.prepare.outputs.commit }}
       - uses: actions/setup-node@v4
         with:
-          node-version: 22.12.0
+          node-version: 22.23.3
           cache: npm
       - run: npm ci --ignore-scripts
       - uses: actions/download-artifact@v4
