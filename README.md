@@ -1,5 +1,9 @@
 # Fuchsius desktop downloads
 
+The current release stream starts at **v1.0.0**. Previous releases have been retired.
+If you installed v1.0.1–v1.0.4, install the new v1.0.0 manually once; automatic
+updates do not downgrade an installed version. Future releases increment from v1.0.0.
+
 Download the latest installers from [Releases](https://github.com/tharindu-kulasinghe/fuchsius-updates/releases/latest).
 
 - **Windows:** `Fuchsius-Setup-<version>-x64.exe`.
