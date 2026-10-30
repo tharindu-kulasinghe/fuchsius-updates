@@ -1,20 +1,13 @@
 # Fuchsius desktop downloads
 
-The current release stream starts at **v1.0.0**. Previous releases have been retired.
-If you installed v1.0.1–v1.0.4, install the new v1.0.0 manually once; automatic
-updates do not downgrade an installed version. Future releases increment from v1.0.0.
+The release stream has been reset to **v1.0.0**. Download installers from [Releases](https://github.com/tharindu-kulasinghe/fuchsius-updates/releases/latest). Earlier installers and release tags are retired after the replacement release is verified; private source history is preserved.
 
-Download the latest installers from [Releases](https://github.com/tharindu-kulasinghe/fuchsius-updates/releases/latest).
+- **Windows x64:** `Fuchsius-Setup-1.0.0-x64.exe`.
+- **Linux x64 or ARM64:** choose the matching AppImage for automatic in-app updates, or a DEB for system-managed installation. System packages can require operating-system permissions to update.
+- **Mac:** releases and automatic updates are temporarily disabled until Apple Developer ID signing and notarization are configured. No unsigned Mac update feed is published.
 
-- **Windows:** `Fuchsius-Setup-<version>-x64.exe`.
-- **Mac with Apple Silicon:** `Fuchsius-<version>-arm64.dmg`.
-- **Mac with Intel:** `Fuchsius-<version>-x64.dmg`.
-- **Linux:** choose the AppImage or DEB for your architecture.
+Updates download in the background, then install and reopen the app on normal close or Quit. There is no GitHub login, personal access token or update button required. Checks run on startup and hourly; failed checks retry after five minutes. The app does not restart unexpectedly while you are working.
 
-Windows and Linux AppImage installations check for updates automatically and download them in the background. Closing the app when an update is ready installs it and reopens the updated version. No GitHub login or update token is required.
+**One-time reset:** install the replacement v1.0.0 manually if you have any previous build, including an older v1.0.0 or a higher version. Automatic updates do not downgrade or replace the same version. Future releases increase to v1.0.1 and onward. The first signed Mac release also needs one manual installation; subsequent verified signed releases can update automatically.
 
-Mac updates are disabled in current ad-hoc builds while Apple Developer approval is pending. Install Mac releases manually. The first Apple Developer ID signed and notarized release will also require one manual installation; subsequent signed releases can update automatically.
-
-This repository contains the installer publishing workflow and release downloads. Application source is maintained in a separate private repository. Installers include the bundled code needed to run the application.
-
-The workflow checks for new source versions approximately every 15 minutes; GitHub schedules can be delayed. Existing installations from the old private update feed need one manual installation of a release from this repository.
+This repository hosts installer assets and publishing automation. Application source stays in a separate private repository; CI credentials are used only for checkout/publishing and are not included in the app.
