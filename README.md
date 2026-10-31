@@ -4,7 +4,10 @@ The release stream has been reset to **v1.0.0**. Download installers from [Relea
 
 - **Windows x64:** `Fuchsius-Setup-1.0.0-x64.exe`.
 - **Linux x64 or ARM64:** choose the matching AppImage for automatic in-app updates, or a DEB for system-managed installation. System packages can require operating-system permissions to update.
-- **Mac:** releases and automatic updates are temporarily disabled until Apple Developer ID signing and notarization are configured. No unsigned Mac update feed is published.
+- **Mac Apple Silicon:** `Fuchsius-<version>-arm64.dmg`.
+- **Mac Intel:** `Fuchsius-<version>-x64.dmg`.
+
+Mac DMGs are temporary manual installers with automatic updates disabled. They have a verified ad-hoc signature but are not Apple Developer ID signed or notarized; normal macOS approval may be required. Use only the company download links. No Mac automatic-update ZIP or feed is published.
 
 Updates download in the background, then install and reopen the app on normal close or Quit. There is no GitHub login, personal access token or update button required. Checks run on startup and hourly; failed checks retry after five minutes. The app does not restart unexpectedly while you are working.
 
