@@ -35,7 +35,8 @@ jobs:
         id: release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HAS_MAC_SIGNING: ${{ secrets.MAC_CSC_LINK != '' && secrets.MAC_CSC_KEY_PASSWORD != '' && secrets.APPLE_API_KEY_BASE64 != '' && secrets.APPLE_API_KEY_ID != '' && secrets.APPLE_API_ISSUER != '' }}
+          MAC_AUTO_UPDATES_ENABLED: ${{ vars.MAC_AUTO_UPDATES_ENABLED }}
+          HAS_MAC_SIGNING: ${{ vars.MAC_AUTO_UPDATES_ENABLED == 'true' && secrets.MAC_CSC_LINK != '' && secrets.MAC_CSC_KEY_PASSWORD != '' && secrets.APPLE_API_KEY_BASE64 != '' && secrets.APPLE_API_KEY_ID != '' && secrets.APPLE_API_ISSUER != '' }}
         run: node scripts/prepare-public-release.cjs
 
   validate:
